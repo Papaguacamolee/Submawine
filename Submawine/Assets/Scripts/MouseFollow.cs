@@ -9,15 +9,17 @@ public class MouseFollow : MonoBehaviour
     private Vector2 mousePos;
     [SerializeField] private GameObject projPrefab;
     [SerializeField] private float bulletSpeed = 10f;
-    private float angle;
+    public float angle;
     private Vector2 lookDir;
     private float lastTime;
     private GameObject lasthit;
+    [SerializeField] private GameObject claw;
+    private Claw clawCont;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        
+        clawCont = claw.GetComponent<Claw>();
     }
 
     // Update is called once per frame
@@ -39,8 +41,11 @@ public class MouseFollow : MonoBehaviour
         mousePos = cam.ScreenToWorldPoint(mouseScreenPosition);
         if (Mouse.current.leftButton.wasPressedThisFrame)
         {
-
             Shoot();
+        }
+        if (Mouse.current.rightButton.wasPressedThisFrame && !clawCont.shot)
+        {
+            clawCont.ClawExtend();
         }
     }
     private void FixedUpdate()
@@ -48,6 +53,9 @@ public class MouseFollow : MonoBehaviour
         lookDir = mousePos - (Vector2)transform.position;
         angle = Mathf.Atan2(lookDir.y, lookDir.x) * Mathf.Rad2Deg - 90f;
         transform.rotation = Quaternion.Euler(0f, 0f, angle);
+
+        clawCont.clawLookDir = mousePos - (Vector2)claw.transform.position;
+        
     }
 
     void Shoot()
@@ -72,5 +80,6 @@ public class MouseFollow : MonoBehaviour
 
         Debug.Log("Waited for " + waitTime + " seconds, and returned " + lasthit.name);
     }
+
 }
 

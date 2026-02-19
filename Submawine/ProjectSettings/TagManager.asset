@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Ground
   - Submarine
+  - Grabbable
   layers:
   - Default
   - TransparentFX
