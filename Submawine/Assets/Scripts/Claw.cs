@@ -3,6 +3,7 @@ using UnityEngine;
 public class Claw : MonoBehaviour
 {
     [SerializeField] private GameObject clawPrefab;
+    [SerializeField] private Rope rope;
     public float clawSpeed;
     public Vector2 clawLookDir;
     private float angle;
@@ -11,10 +12,11 @@ public class Claw : MonoBehaviour
     //private bool returning = false;
     private GameObject grabbed = null;
     private GameObject claw = null;
+    private GameObject parent;
+    private Collider2D parCol;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        
         
     }
 
@@ -37,7 +39,11 @@ public class Claw : MonoBehaviour
 
     public void ClawExtend()
     {
-        claw = Instantiate(clawPrefab, transform.position, Quaternion.Euler(0, 0, angle));
+        
+        claw = Instantiate(clawPrefab, transform.position, Quaternion.Euler(0, 0, angle)); 
+        Physics2D.IgnoreCollision(claw.GetComponent<Collider2D>(), GetComponentInChildren<Collider2D>(), true);
+        rope.setClaw(claw);
+        
         Rigidbody2D rb = claw.GetComponent<Rigidbody2D>();
         rb.linearVelocity = clawLookDir * clawSpeed;
         clawProjectile Sp = claw.GetComponent<clawProjectile>();
@@ -49,6 +55,7 @@ public class Claw : MonoBehaviour
     public void HandleClawHit(GameObject hitObject)
     {
         Debug.Log("HandlingClawHit");
+        rope.resetRope();
         if (hitObject != null) grabbed = hitObject; Debug.Log("Returned " + grabbed); Destroy(hitObject, 0);
         shot = false;
         GetComponent<SpriteRenderer>().enabled = true;

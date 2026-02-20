@@ -28,9 +28,10 @@ public class clawProjectile : MonoBehaviour
     }
     void OnCollisionEnter2D(Collision2D collision)
     {
+        Physics2D.IgnoreCollision(GetComponent<Collider2D>(), spawner.GetComponentInParent<Collider2D>(), false);
         if (collision.gameObject.CompareTag("Submarine") && returning)
         {
-            returning = true;
+            returning = false;
             Debug.Log("Log2: returning and collided with Submarine");
             spawner.HandleClawHit(target); 
         } 
