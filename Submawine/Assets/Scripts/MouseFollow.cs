@@ -37,7 +37,7 @@ public class MouseFollow : MonoBehaviour
             }
         }
         Vector3 mouseScreenPosition = Mouse.current.position.ReadValue();
-        mouseScreenPosition.z = cam.transform.position.z;
+        mouseScreenPosition.z = -cam.transform.position.z;
         mousePos = cam.ScreenToWorldPoint(mouseScreenPosition);
         if (Mouse.current.leftButton.wasPressedThisFrame)
         {

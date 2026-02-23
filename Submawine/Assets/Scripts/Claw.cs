@@ -41,14 +41,14 @@ public class Claw : MonoBehaviour
     {
         
         claw = Instantiate(clawPrefab, transform.position, Quaternion.Euler(0, 0, angle)); 
-        Physics2D.IgnoreCollision(claw.GetComponent<Collider2D>(), GetComponentInChildren<Collider2D>(), true);
+        //Physics2D.IgnoreCollision(claw.GetComponent<Collider2D>(), GetComponentInChildren<Collider2D>(), true);
         rope.setClaw(claw);
         
         Rigidbody2D rb = claw.GetComponent<Rigidbody2D>();
         rb.linearVelocity = clawLookDir * clawSpeed;
         clawProjectile Sp = claw.GetComponent<clawProjectile>();
         Sp.setSpawner(this);
-        GetComponent<SpriteRenderer>().enabled = false;
+        GetComponentInChildren<SpriteRenderer>().enabled = false;
         shot = true;
     }
 
@@ -58,7 +58,7 @@ public class Claw : MonoBehaviour
         rope.resetRope();
         if (hitObject != null) grabbed = hitObject; Debug.Log("Returned " + grabbed); Destroy(hitObject, 0);
         shot = false;
-        GetComponent<SpriteRenderer>().enabled = true;
+        GetComponentInChildren<SpriteRenderer>().enabled = true;
         Destroy(claw, 0f);
     }
 }
