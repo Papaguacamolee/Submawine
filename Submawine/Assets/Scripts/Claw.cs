@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Collections;
 
 public class Claw : MonoBehaviour
 {
@@ -14,10 +15,12 @@ public class Claw : MonoBehaviour
     private GameObject claw = null;
     private GameObject parent;
     private Collider2D parCol;
+    public Canvas panel;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         
+        panel.enabled = false;
     }
 
     // Update is called once per frame
@@ -60,5 +63,15 @@ public class Claw : MonoBehaviour
         shot = false;
         GetComponentInChildren<SpriteRenderer>().enabled = true;
         Destroy(claw, 0f);
+        
+        StartCoroutine(showCharacters(3f));
+    }
+
+    IEnumerator showCharacters(float waitTime)
+    {
+        panel.enabled = true;
+        yield return new WaitForSeconds(waitTime);
+        panel.enabled = false;
+        
     }
 }
